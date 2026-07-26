@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VICE WIRE — اخبار GTA 6 و دنیای گرند تفت اتو</title>
+<meta name="description" content="آخرین اخبار، شایعات و مقالات مربوط به GTA 6 و GTA Online">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- نویز و اسکن‌لاین پس‌زمینه -->
+<div class="grain-overlay"></div>
+
+<!-- ================= HEADER ================= -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="#home" class="brand">
+      <span class="brand-mark">V</span>
+      <span class="brand-text">VICE<em>WIRE</em></span>
+    </a>
+
+    <nav class="main-nav" id="mainNav">
+      <a href="#home" class="nav-link active" data-target="home">خانه</a>
+      <a href="#gta6" class="nav-link" data-target="gta6">GTA 6</a>
+      <a href="#online" class="nav-link" data-target="online">GTA Online</a>
+      <a href="#news" class="nav-link" data-target="news">اخبار</a>
+      <a href="#about" class="nav-link" data-target="about">درباره ما</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="search-toggle" id="searchToggle" aria-label="جستجو">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z"/></svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="منو">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- کادر جستجو -->
+  <div class="search-box" id="searchBox">
+    <div class="search-box-inner">
+      <input type="text" id="searchInput" placeholder="جستجو در اخبار GTA... مثلاً «Vice City»" autocomplete="off">
+      <span class="search-hint">Enter برای جستجو</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="home">
+    <div class="hero-skyline"></div>
+    <div class="hero-sun"></div>
+    <div class="hero-content">
+      <p class="eyebrow">ROCKSTAR GAMES · نسخه بعدی</p>
+      <h1 class="hero-title" data-text="GTA VI">GTA VI</h1>
+      <p class="hero-sub">لیبرتی سیتی دوباره بیدار می‌شود. هر خبر، هر شایعه، هر ترِیلر — همین‌جا اول از همه.</p>
+
+      <div class="countdown" id="countdown" aria-label="شمارش معکوس تا انتشار">
+        <div class="cd-box"><span class="cd-num" id="cdDays">00</span><span class="cd-label">روز</span></div>
+        <div class="cd-box"><span class="cd-num" id="cdHours">00</span><span class="cd-label">ساعت</span></div>
+        <div class="cd-box"><span class="cd-num" id="cdMins">00</span><span class="cd-label">دقیقه</span></div>
+        <div class="cd-box"><span class="cd-num" id="cdSecs">00</span><span class="cd-label">ثانیه</span></div>
+      </div>
+      <p class="countdown-caption">تا تاریخ رسمی انتشار GTA 6 (26 مه 2026)*</p>
+
+      <div class="hero-cta">
+        <a href="#gta6" class="btn btn-primary">آخرین اخبار GTA 6</a>
+        <a href="#news" class="btn btn-ghost">همه مقالات</a>
+      </div>
+    </div>
+    <div class="scroll-cue"><span></span></div>
+  </section>
+
+  <!-- ================= LATEST NEWS ================= -->
+  <section class="section" id="news">
+    <div class="section-head">
+      <p class="section-tag">تازه‌ترین‌ها</p>
+      <h2 class="section-title">اخبار داغ</h2>
+      <div class="filter-tabs" id="filterTabs">
+        <button class="tab active" data-filter="all">همه</button>
+        <button class="tab" data-filter="gta6">GTA 6</button>
+        <button class="tab" data-filter="online">GTA Online</button>
+        <button class="tab" data-filter="community">جامعه</button>
+      </div>
+    </div>
+
+    <div class="news-grid" id="newsGrid"><!-- کارت‌های خبری با جاوااسکریپت ساخته می‌شوند --></div>
+
+    <div class="no-results" id="noResults" hidden>
+      <p>چیزی با این جستجو پیدا نشد.</p>
+      <button class="btn btn-ghost" id="clearFilters">پاک‌کردن فیلترها</button>
+    </div>
+  </section>
+
+  <!-- ================= GTA 6 SPOTLIGHT ================= -->
+  <section class="section spotlight" id="gta6">
+    <div class="spotlight-media">
+      <div class="spotlight-frame">
+        <div class="frame-glow"></div>
+        <div class="frame-badge">TRAILER 2</div>
+      </div>
+    </div>
+    <div class="spotlight-copy">
+      <p class="section-tag">پرونده ویژه</p>
+      <h2 class="section-title">دنیای GTA 6 چه شکلی است؟</h2>
+      <p class="spotlight-text">
+        بازگشت به ویس‌سیتی با نقشه‌ای گسترده‌تر، دو شخصیت اصلی به نام‌های لوسیا و جیسون، و موتور گرافیکی جدید
+        راک‌استار. این بخش را برای تحلیل نقشه، شخصیت‌ها و مکانیزم‌های تازه دنبال کنید.
+      </p>
+      <ul class="spotlight-list">
+        <li><span>🗺️</span> نقشه‌ای الهام‌گرفته از فلوریدا با شهرها و مناطق روستایی</li>
+        <li><span>🎭</span> اولین بار دو قهرمان اصلی به‌صورت هم‌زمان قابل بازی</li>
+        <li><span>🌆</span> سیستم آب‌وهوا و شبیه‌سازی جمعیت پیشرفته‌تر</li>
+      </ul>
+      <a href="#news" class="btn btn-primary">مشاهده همه مطالب GTA 6</a>
+    </div>
+  </section>
+
+  <!-- ================= GTA ONLINE ================= -->
+  <section class="section online-section" id="online">
+    <div class="section-head">
+      <p class="section-tag">هنوز زنده است</p>
+      <h2 class="section-title">GTA Online</h2>
+    </div>
+    <div class="online-grid">
+      <article class="online-card">
+        <div class="online-card-icon">💰</div>
+        <h3>پاداش‌های هفتگی</h3>
+        <p>لیست کامل جایزه‌های دوبرابر، تخفیف وسایل نقلیه و رویدادهای پاداش این هفته.</p>
+      </article>
+      <article class="online-card">
+        <div class="online-card-icon">🚗</div>
+        <h3>آپدیت خودروهای جدید</h3>
+        <p>معرفی جدیدترین خودروهای اضافه‌شده به فروشگاه لگندری و ساخت‌وساز.</p>
+      </article>
+      <article class="online-card">
+        <div class="online-card-icon">🎯</div>
+        <h3>مأموریت‌های تازه</h3>
+        <p>راهنمای کامل مأموریت‌های هیست جدید و بهترین تیم‌چینی برای اجرای آن‌ها.</p>
+      </article>
+      <article class="online-card">
+        <div class="online-card-icon">🛠️</div>
+        <h3>وضعیت سرورها</h3>
+        <p>گزارش پایداری سرور، باگ‌های شناخته‌شده و زمان‌بندی پچ‌های بعدی.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= COMMENTS ================= -->
+  <section class="section comments-section" id="comments">
+    <div class="section-head">
+      <p class="section-tag">صدای جامعه</p>
+      <h2 class="section-title">نظرات کاربران</h2>
+    </div>
+
+    <form class="comment-form" id="commentForm">
+      <input type="text" id="commentName" placeholder="نام شما" required maxlength="30">
+      <textarea id="commentText" placeholder="نظرت درباره آخرین اخبار GTA چیه؟" required maxlength="280" rows="3"></textarea>
+      <button type="submit" class="btn btn-primary">ارسال نظر</button>
+    </form>
+
+    <div class="comment-list" id="commentList"><!-- نظرات با جاوااسکریپت رندر می‌شوند --></div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section class="section about-section" id="about">
+    <div class="about-inner">
+      <p class="section-tag">درباره ما</p>
+      <h2 class="section-title">VICE WIRE کیست؟</h2>
+      <p class="about-text">
+        ویس‌وایر یک رسانه مستقل و هوادار برای دنبال‌کنندگان مجموعه GTA است. ما شایعه‌ها را از خبرهای تأییدشده
+        جدا می‌کنیم، ترِیلرها را قاب‌به‌قاب بررسی می‌کنیم و هر بروزرسانی GTA Online را همان لحظه پوشش می‌دهیم.
+        هیچ سروصدای اضافه‌ای نیست؛ فقط چیزی که واقعاً برایتان اهمیت دارد.
+      </p>
+      <div class="about-stats">
+        <div class="stat"><span class="stat-num">240+</span><span class="stat-label">مقاله منتشرشده</span></div>
+        <div class="stat"><span class="stat-num">18</span><span class="stat-label">نویسنده و مترجم</span></div>
+        <div class="stat"><span class="stat-num">24/7</span><span class="stat-label">پوشش خبری</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="brand-text">VICE<em>WIRE</em></span>
+      <p>این سایت یک پروژه‌ی هوادارانه است و به شرکت Rockstar Games یا Take-Two Interactive وابسته نیست.</p>
+    </div>
+    <div class="footer-links">
+      <a href="#gta6">GTA 6</a>
+      <a href="#online">GTA Online</a>
+      <a href="#news">اخبار</a>
+      <a href="#about">درباره ما</a>
+    </div>
+  </div>
+  <p class="footer-copy">© 2026 VICE WIRE — ساخته‌شده برای طرفداران، توسط طرفداران.</p>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="بازگشت به بالا">↑</button>
+
+<script src="script.js"></script>
+</body>
+</html>
