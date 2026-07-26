@@ -1,367 +1,212 @@
-/* =========================================================
-   VICE WIRE — GTA News Site
-   script.js
-========================================================= */
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VICE WIRE — اخبار GTA 6 و دنیای گرند تفت اتو</title>
+<meta name="description" content="آخرین اخبار، شایعات و مقالات مربوط به GTA 6 و GTA Online">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-document.addEventListener('DOMContentLoaded', () => {
+<!-- نویز و اسکن‌لاین پس‌زمینه -->
+<div class="grain-overlay"></div>
 
-  /* ---------------------------------------------------
-     1) داده‌های خبری نمونه
-     برای اتصال به یک API واقعی، این آرایه را با نتیجه‌ی
-     fetch() از سرور خودتان جایگزین کنید.
-  --------------------------------------------------- */
-  // نکته: تصاویر با URL مستقیم از Picsum لود می‌شوند (بدون نیاز به آپلود روی GitHub Pages).
-  // برای جایگزینی، کافیست فیلد image هر آیتم را با آدرس عکس دلخواه خودتان (هر URL مستقیمی) عوض کنید.
-  const newsData = [
-    {
-      id: 1,
-      category: 'gta6',
-      categoryLabel: 'GTA 6',
-      icon: '🌴',
-      title: 'تحلیل کامل تریلر دوم GTA 6: چه چیزهایی از دست دادیم؟',
-      desc: 'قاب‌به‌قاب تریلر دوم را بررسی کردیم تا جزئیات پنهان نقشه و شخصیت‌ها را پیدا کنیم.',
-      date: '۲۲ تیر ۱۴۰۵',
-      image: 'https://picsum.photos/seed/vicewire-trailer/800/450',
-      gradient: 'linear-gradient(150deg,#ff2e7e,#ff7a3d)'
-    },
-    {
-      id: 2,
-      category: 'gta6',
-      categoryLabel: 'GTA 6',
-      icon: '🗺️',
-      title: 'نقشه GTA 6 چقدر بزرگ‌تر از GTA 5 خواهد بود؟',
-      desc: 'مقایسه مساحت لیونیدا با نقشه لوس‌سانتوس بر اساس شواهد موجود در تریلرها.',
-      date: '۱۸ تیر ۱۴۰۵',
-      image: 'https://picsum.photos/seed/vicewire-map/800/450',
-      gradient: 'linear-gradient(150deg,#23e6ff,#ff2e7e)'
-    },
-    {
-      id: 3,
-      category: 'online',
-      categoryLabel: 'GTA Online',
-      icon: '💰',
-      title: 'رویداد پاداش دوبرابر این هفته در GTA Online فعال شد',
-      desc: 'لیست کامل مأموریت‌ها، فروشگاه‌ها و خودروهایی که تخفیف ویژه گرفته‌اند.',
-      date: '۲۴ تیر ۱۴۰۵',
-      image: 'https://picsum.photos/seed/vicewire-bonus/800/450',
-      gradient: 'linear-gradient(150deg,#ff7a3d,#b81f5c)'
-    },
-    {
-      id: 4,
-      category: 'community',
-      categoryLabel: 'جامعه',
-      icon: '🎨',
-      title: 'بهترین طرفداری‌های هنری هفته از دنیای GTA',
-      desc: 'مروری بر خلاقانه‌ترین آثار هوادارانی که الهام‌گرفته از ویس‌سیتی جدید کار کرده‌اند.',
-      date: '۲۰ تیر ۱۴۰۵',
-      image: 'https://picsum.photos/seed/vicewire-art/800/450',
-      gradient: 'linear-gradient(150deg,#5c1240,#23e6ff)'
-    },
-    {
-      id: 5,
-      category: 'gta6',
-      categoryLabel: 'GTA 6',
-      icon: '🎭',
-      title: 'لوسیا و جیسون؛ زوج جدید داستان GTA چه رازی دارند؟',
-      desc: 'نگاهی به روایت دو قهرمانه و اینکه چرا این تصمیم راک‌استار می‌تواند بازی را متحول کند.',
-      date: '۱۵ تیر ۱۴۰۵',
-      image: 'https://picsum.photos/seed/vicewire-characters/800/450',
-      gradient: 'linear-gradient(150deg,#ff2e7e,#5c1240)'
-    },
-    {
-      id: 6,
-      category: 'online',
-      categoryLabel: 'GTA Online',
-      icon: '🚗',
-      title: 'معرفی تازه‌ترین خودروهای فروشگاه لگندری موتورسپورت',
-      desc: 'سه خودروی جدید با مشخصات فنی کامل و بهترین گزینه برای مسابقات آنلاین.',
-      date: '۱۲ تیر ۱۴۰۵',
-      image: 'https://picsum.photos/seed/vicewire-cars/800/450',
-      gradient: 'linear-gradient(150deg,#23e6ff,#ff7a3d)'
-    },
-    {
-      id: 7,
-      category: 'community',
-      categoryLabel: 'جامعه',
-      icon: '🎙️',
-      title: 'گفتگو با یک مود‌ساز معروف درباره آینده مودینگ در GTA 6',
-      desc: 'صحبت با یکی از شناخته‌شده‌ترین سازندگان ماد درباره محدودیت‌ها و فرصت‌های نسخه جدید.',
-      date: '۸ تیر ۱۴۰۵',
-      image: 'https://picsum.photos/seed/vicewire-modding/800/450',
-      gradient: 'linear-gradient(150deg,#b81f5c,#23e6ff)'
-    },
-    {
-      id: 8,
-      category: 'gta6',
-      categoryLabel: 'GTA 6',
-      icon: '🌆',
-      title: 'سیستم آب‌وهوای پویا در GTA 6 چطور بازی را تغییر می‌دهد',
-      desc: 'بررسی فنی سیستم جدید آب‌وهوا و تأثیر آن روی رانندگی، شکار و مأموریت‌ها.',
-      date: '۴ تیر ۱۴۰۵',
-      image: 'https://picsum.photos/seed/vicewire-weather/800/450',
-      gradient: 'linear-gradient(150deg,#ff7a3d,#23e6ff)'
-    }
-  ];
+<!-- ================= HEADER ================= -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="#home" class="brand">
+      <span class="brand-mark">V</span>
+      <span class="brand-text">VICE<em>WIRE</em></span>
+    </a>
 
-  /* ---------------------------------------------------
-     2) رندر کارت‌های خبری
-  --------------------------------------------------- */
-  const newsGrid = document.getElementById('newsGrid');
-  const noResults = document.getElementById('noResults');
+    <nav class="main-nav" id="mainNav">
+      <a href="#home" class="nav-link active" data-target="home">خانه</a>
+      <a href="#gta6" class="nav-link" data-target="gta6">GTA 6</a>
+      <a href="#online" class="nav-link" data-target="online">GTA Online</a>
+      <a href="#news" class="nav-link" data-target="news">اخبار</a>
+      <a href="#about" class="nav-link" data-target="about">درباره ما</a>
+    </nav>
 
-  function renderNews(list) {
-    newsGrid.innerHTML = '';
-    if (list.length === 0) {
-      noResults.hidden = false;
-      return;
-    }
-    noResults.hidden = true;
+    <div class="header-actions">
+      <button class="search-toggle" id="searchToggle" aria-label="جستجو">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z"/></svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="منو">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
 
-    list.forEach((item, i) => {
-      const card = document.createElement('article');
-      card.className = 'news-card';
-      card.style.animationDelay = `${i * 0.05}s`;
-      card.dataset.category = item.category;
-      card.innerHTML = `
-        <div class="card-thumb" style="background:${item.gradient}">
-          <img
-            class="card-thumb-img"
-            src="${item.image}"
-            alt="${item.title}"
-            loading="lazy"
-            onerror="this.style.display='none'"
-          >
-          <span class="card-cat">${item.categoryLabel}</span>
-          <span class="card-thumb-icon">${item.icon}</span>
-        </div>
-        <div class="card-body">
-          <span class="card-meta">${item.date}</span>
-          <h3 class="card-title">${item.title}</h3>
-          <p class="card-desc">${item.desc}</p>
-          <a href="#" class="card-link" data-id="${item.id}">ادامه مطلب ←</a>
-        </div>
-      `;
-      newsGrid.appendChild(card);
-    });
-  }
+  <!-- کادر جستجو -->
+  <div class="search-box" id="searchBox">
+    <div class="search-box-inner">
+      <input type="text" id="searchInput" placeholder="جستجو در اخبار GTA... مثلاً «Vice City»" autocomplete="off">
+      <span class="search-hint">Enter برای جستجو</span>
+    </div>
+  </div>
+</header>
 
-  renderNews(newsData);
+<main>
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="home">
+    <div class="hero-skyline"></div>
+    <div class="hero-sun"></div>
+    <div class="hero-content">
+      <p class="eyebrow">ROCKSTAR GAMES · نسخه بعدی</p>
+      <h1 class="hero-title" data-text="GTA VI">GTA VI</h1>
+      <p class="hero-sub">لیبرتی سیتی دوباره بیدار می‌شود. هر خبر، هر شایعه، هر ترِیلر — همین‌جا اول از همه.</p>
 
-  /* ---------------------------------------------------
-     3) فیلتر دسته‌بندی + جستجو
-  --------------------------------------------------- */
-  const tabs = document.querySelectorAll('.tab');
-  const searchInput = document.getElementById('searchInput');
-  const clearFiltersBtn = document.getElementById('clearFilters');
-  let activeFilter = 'all';
+      <div class="countdown" id="countdown" aria-label="شمارش معکوس تا انتشار">
+        <div class="cd-box"><span class="cd-num" id="cdDays">00</span><span class="cd-label">روز</span></div>
+        <div class="cd-box"><span class="cd-num" id="cdHours">00</span><span class="cd-label">ساعت</span></div>
+        <div class="cd-box"><span class="cd-num" id="cdMins">00</span><span class="cd-label">دقیقه</span></div>
+        <div class="cd-box"><span class="cd-num" id="cdSecs">00</span><span class="cd-label">ثانیه</span></div>
+      </div>
+      <p class="countdown-caption">تا تاریخ رسمی انتشار GTA 6 (26 مه 2026)*</p>
 
-  function applyFilters() {
-    const query = searchInput.value.trim().toLowerCase();
-    const filtered = newsData.filter(item => {
-      const matchesCategory = activeFilter === 'all' || item.category === activeFilter;
-      const matchesQuery = !query ||
-        item.title.toLowerCase().includes(query) ||
-        item.desc.toLowerCase().includes(query) ||
-        item.categoryLabel.toLowerCase().includes(query);
-      return matchesCategory && matchesQuery;
-    });
-    renderNews(filtered);
-  }
+      <div class="hero-cta">
+        <a href="#gta6" class="btn btn-primary">آخرین اخبار GTA 6</a>
+        <a href="#news" class="btn btn-ghost">همه مقالات</a>
+      </div>
+    </div>
+    <div class="scroll-cue"><span></span></div>
+  </section>
 
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      activeFilter = tab.dataset.filter;
-      applyFilters();
-    });
-  });
+  <!-- ================= LATEST NEWS ================= -->
+  <section class="section" id="news">
+    <div class="section-head">
+      <p class="section-tag">تازه‌ترین‌ها</p>
+      <h2 class="section-title">اخبار داغ</h2>
+      <div class="filter-tabs" id="filterTabs">
+        <button class="tab active" data-filter="all">همه</button>
+        <button class="tab" data-filter="gta6">GTA 6</button>
+        <button class="tab" data-filter="online">GTA Online</button>
+        <button class="tab" data-filter="community">جامعه</button>
+      </div>
+    </div>
 
-  searchInput.addEventListener('input', applyFilters);
+    <div class="news-grid" id="newsGrid"><!-- کارت‌های خبری با جاوااسکریپت ساخته می‌شوند --></div>
 
-  clearFiltersBtn.addEventListener('click', () => {
-    activeFilter = 'all';
-    searchInput.value = '';
-    tabs.forEach(t => t.classList.remove('active'));
-    tabs[0].classList.add('active');
-    renderNews(newsData);
-  });
+    <div class="no-results" id="noResults" hidden>
+      <p>چیزی با این جستجو پیدا نشد.</p>
+      <button class="btn btn-ghost" id="clearFilters">پاک‌کردن فیلترها</button>
+    </div>
+  </section>
 
-  /* ---------------------------------------------------
-     4) باکس جستجوی هدر
-  --------------------------------------------------- */
-  const searchToggle = document.getElementById('searchToggle');
-  const searchBox = document.getElementById('searchBox');
+  <!-- ================= GTA 6 SPOTLIGHT ================= -->
+  <section class="section spotlight" id="gta6">
+    <div class="spotlight-media">
+      <div class="spotlight-frame">
+        <img class="frame-img" src="https://images.unsplash.com/photo-1607304823233-34673a96fddd?w=1000&h=800&fit=crop&q=80" alt="نمای مفهومی از دنیای GTA 6" loading="lazy" onerror="this.style.display='none'">
+        <div class="frame-glow"></div>
+        <div class="frame-badge">TRAILER 2</div>
+      </div>
+    </div>
+    <div class="spotlight-copy">
+      <p class="section-tag">پرونده ویژه</p>
+      <h2 class="section-title">دنیای GTA 6 چه شکلی است؟</h2>
+      <p class="spotlight-text">
+        بازگشت به ویس‌سیتی با نقشه‌ای گسترده‌تر، دو شخصیت اصلی به نام‌های لوسیا و جیسون، و موتور گرافیکی جدید
+        راک‌استار. این بخش را برای تحلیل نقشه، شخصیت‌ها و مکانیزم‌های تازه دنبال کنید.
+      </p>
+      <ul class="spotlight-list">
+        <li><span>🗺️</span> نقشه‌ای الهام‌گرفته از فلوریدا با شهرها و مناطق روستایی</li>
+        <li><span>🎭</span> اولین بار دو قهرمان اصلی به‌صورت هم‌زمان قابل بازی</li>
+        <li><span>🌆</span> سیستم آب‌وهوا و شبیه‌سازی جمعیت پیشرفته‌تر</li>
+      </ul>
+      <a href="#news" class="btn btn-primary">مشاهده همه مطالب GTA 6</a>
+    </div>
+  </section>
 
-  searchToggle.addEventListener('click', () => {
-    searchBox.classList.toggle('open');
-    if (searchBox.classList.contains('open')) {
-      setTimeout(() => searchInput.focus(), 300);
-    }
-  });
+  <!-- ================= GTA ONLINE ================= -->
+  <section class="section online-section" id="online">
+    <div class="section-head">
+      <p class="section-tag">هنوز زنده است</p>
+      <h2 class="section-title">GTA Online</h2>
+    </div>
+    <div class="online-grid">
+      <article class="online-card">
+        <div class="online-card-icon">💰</div>
+        <h3>پاداش‌های هفتگی</h3>
+        <p>لیست کامل جایزه‌های دوبرابر، تخفیف وسایل نقلیه و رویدادهای پاداش این هفته.</p>
+      </article>
+      <article class="online-card">
+        <div class="online-card-icon">🚗</div>
+        <h3>آپدیت خودروهای جدید</h3>
+        <p>معرفی جدیدترین خودروهای اضافه‌شده به فروشگاه لگندری و ساخت‌وساز.</p>
+      </article>
+      <article class="online-card">
+        <div class="online-card-icon">🎯</div>
+        <h3>مأموریت‌های تازه</h3>
+        <p>راهنمای کامل مأموریت‌های هیست جدید و بهترین تیم‌چینی برای اجرای آن‌ها.</p>
+      </article>
+      <article class="online-card">
+        <div class="online-card-icon">🛠️</div>
+        <h3>وضعیت سرورها</h3>
+        <p>گزارش پایداری سرور، باگ‌های شناخته‌شده و زمان‌بندی پچ‌های بعدی.</p>
+      </article>
+    </div>
+  </section>
 
-  searchInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      document.getElementById('news').scrollIntoView({ behavior: 'smooth' });
-    }
-  });
+  <!-- ================= COMMENTS ================= -->
+  <section class="section comments-section" id="comments">
+    <div class="section-head">
+      <p class="section-tag">صدای جامعه</p>
+      <h2 class="section-title">نظرات کاربران</h2>
+    </div>
 
-  /* ---------------------------------------------------
-     5) منوی موبایل
-  --------------------------------------------------- */
-  const menuToggle = document.getElementById('menuToggle');
-  const mainNav = document.getElementById('mainNav');
+    <form class="comment-form" id="commentForm">
+      <input type="text" id="commentName" placeholder="نام شما" required maxlength="30">
+      <textarea id="commentText" placeholder="نظرت درباره آخرین اخبار GTA چیه؟" required maxlength="280" rows="3"></textarea>
+      <button type="submit" class="btn btn-primary">ارسال نظر</button>
+    </form>
 
-  menuToggle.addEventListener('click', () => {
-    menuToggle.classList.toggle('open');
-    mainNav.classList.toggle('open');
-  });
+    <div class="comment-list" id="commentList"><!-- نظرات با جاوااسکریپت رندر می‌شوند --></div>
+  </section>
 
-  document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-      menuToggle.classList.remove('open');
-      mainNav.classList.remove('open');
-    });
-  });
+  <!-- ================= ABOUT ================= -->
+  <section class="section about-section" id="about">
+    <div class="about-inner">
+      <p class="section-tag">درباره ما</p>
+      <h2 class="section-title">VICE WIRE کیست؟</h2>
+      <p class="about-text">
+        ویس‌وایر یک رسانه مستقل و هوادار برای دنبال‌کنندگان مجموعه GTA است. ما شایعه‌ها را از خبرهای تأییدشده
+        جدا می‌کنیم، ترِیلرها را قاب‌به‌قاب بررسی می‌کنیم و هر بروزرسانی GTA Online را همان لحظه پوشش می‌دهیم.
+        هیچ سروصدای اضافه‌ای نیست؛ فقط چیزی که واقعاً برایتان اهمیت دارد.
+      </p>
+      <div class="about-stats">
+        <div class="stat"><span class="stat-num">240+</span><span class="stat-label">مقاله منتشرشده</span></div>
+        <div class="stat"><span class="stat-num">18</span><span class="stat-label">نویسنده و مترجم</span></div>
+        <div class="stat"><span class="stat-num">24/7</span><span class="stat-label">پوشش خبری</span></div>
+      </div>
+    </div>
+  </section>
+</main>
 
-  /* ---------------------------------------------------
-     6) هایلایت لینک فعال منو هنگام اسکرول
-  --------------------------------------------------- */
-  const sections = ['home', 'gta6', 'online', 'news', 'about']
-    .map(id => document.getElementById(id))
-    .filter(Boolean);
-  const navLinks = document.querySelectorAll('.nav-link');
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="brand-text">VICE<em>WIRE</em></span>
+      <p>این سایت یک پروژه‌ی هوادارانه است و به شرکت Rockstar Games یا Take-Two Interactive وابسته نیست.</p>
+    </div>
+    <div class="footer-links">
+      <a href="#gta6">GTA 6</a>
+      <a href="#online">GTA Online</a>
+      <a href="#news">اخبار</a>
+      <a href="#about">درباره ما</a>
+    </div>
+  </div>
+  <p class="footer-copy">© 2026 VICE WIRE — ساخته‌شده برای طرفداران، توسط طرفداران.</p>
+</footer>
 
-  const sectionObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        navLinks.forEach(link => {
-          link.classList.toggle('active', link.dataset.target === entry.target.id);
-        });
-      }
-    });
-  }, { threshold: 0.4 });
+<button class="back-to-top" id="backToTop" aria-label="بازگشت به بالا">↑</button>
 
-  sections.forEach(sec => sectionObserver.observe(sec));
-
-  /* ---------------------------------------------------
-     7) شمارش معکوس انتشار GTA 6
-  --------------------------------------------------- */
-  const releaseDate = new Date('2026-05-26T00:00:00');
-  const cdDays = document.getElementById('cdDays');
-  const cdHours = document.getElementById('cdHours');
-  const cdMins = document.getElementById('cdMins');
-  const cdSecs = document.getElementById('cdSecs');
-
-  function pad(n) { return String(n).padStart(2, '0'); }
-
-  function updateCountdown() {
-    const now = new Date();
-    let diff = releaseDate - now;
-    if (diff < 0) diff = 0;
-
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const mins = Math.floor((diff / (1000 * 60)) % 60);
-    const secs = Math.floor((diff / 1000) % 60);
-
-    cdDays.textContent = pad(days);
-    cdHours.textContent = pad(hours);
-    cdMins.textContent = pad(mins);
-    cdSecs.textContent = pad(secs);
-  }
-
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
-
-  /* ---------------------------------------------------
-     8) بخش نظرات کاربران (ذخیره‌سازی محلی مرورگر)
-  --------------------------------------------------- */
-  const commentForm = document.getElementById('commentForm');
-  const commentList = document.getElementById('commentList');
-  const STORAGE_KEY = 'vicewire_comments';
-
-  const defaultComments = [
-    { name: 'رضا', text: 'اون تریلر دوم رو صد بار دیدم، هنوز باورم نمیشه اینقدر واقعی به‌نظر میاد!', time: '۲ روز پیش' },
-    { name: 'سارا', text: 'امیدوارم این‌بار مود کردن بازی هم آسون‌تر باشه.', time: '۱ روز پیش' }
-  ];
-
-  function loadComments() {
-    try {
-      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-      return Array.isArray(saved) ? saved : defaultComments;
-    } catch {
-      return defaultComments;
-    }
-  }
-
-  function saveComments(list) {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-    } catch {
-      /* اگر ذخیره‌سازی محلی در دسترس نبود، بی‌صدا رد شو */
-    }
-  }
-
-  let comments = loadComments();
-
-  function renderComments() {
-    commentList.innerHTML = '';
-    comments.forEach(c => {
-      const el = document.createElement('div');
-      el.className = 'comment';
-      el.innerHTML = `
-        <div class="comment-avatar">${c.name.trim().charAt(0).toUpperCase() || '?'}</div>
-        <div class="comment-body">
-          <div class="comment-head">
-            <span class="comment-name">${escapeHtml(c.name)}</span>
-            <span class="comment-time">${c.time}</span>
-          </div>
-          <p class="comment-text">${escapeHtml(c.text)}</p>
-        </div>
-      `;
-      commentList.appendChild(el);
-    });
-  }
-
-  function escapeHtml(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-  }
-
-  renderComments();
-
-  commentForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const nameInput = document.getElementById('commentName');
-    const textInput = document.getElementById('commentText');
-
-    const name = nameInput.value.trim();
-    const text = textInput.value.trim();
-    if (!name || !text) return;
-
-    comments.unshift({ name, text, time: 'هم‌اکنون' });
-    saveComments(comments);
-    renderComments();
-
-    commentForm.reset();
-  });
-
-  /* ---------------------------------------------------
-     9) هدر شفاف هنگام اسکرول + دکمه بازگشت به بالا
-  --------------------------------------------------- */
-  const header = document.getElementById('siteHeader');
-  const backToTop = document.getElementById('backToTop');
-
-  window.addEventListener('scroll', () => {
-    const scrolled = window.scrollY > 40;
-    header.style.background = scrolled ? 'rgba(10,4,20,.9)' : 'rgba(10,4,20,.65)';
-    backToTop.classList.toggle('show', window.scrollY > 500);
-  });
-
-  backToTop.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
-});
+<script src="script.js"></script>
+</body>
+</html>
+   
