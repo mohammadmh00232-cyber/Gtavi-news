@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
      برای اتصال به یک API واقعی، این آرایه را با نتیجه‌ی
      fetch() از سرور خودتان جایگزین کنید.
   --------------------------------------------------- */
+  // نکته: تصاویر با URL مستقیم از Picsum لود می‌شوند (بدون نیاز به آپلود روی GitHub Pages).
+  // برای جایگزینی، کافیست فیلد image هر آیتم را با آدرس عکس دلخواه خودتان (هر URL مستقیمی) عوض کنید.
   const newsData = [
     {
       id: 1,
@@ -19,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
       title: 'تحلیل کامل تریلر دوم GTA 6: چه چیزهایی از دست دادیم؟',
       desc: 'قاب‌به‌قاب تریلر دوم را بررسی کردیم تا جزئیات پنهان نقشه و شخصیت‌ها را پیدا کنیم.',
       date: '۲۲ تیر ۱۴۰۵',
+      image: 'https://picsum.photos/seed/vicewire-trailer/800/450',
       gradient: 'linear-gradient(150deg,#ff2e7e,#ff7a3d)'
     },
     {
@@ -29,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
       title: 'نقشه GTA 6 چقدر بزرگ‌تر از GTA 5 خواهد بود؟',
       desc: 'مقایسه مساحت لیونیدا با نقشه لوس‌سانتوس بر اساس شواهد موجود در تریلرها.',
       date: '۱۸ تیر ۱۴۰۵',
+      image: 'https://picsum.photos/seed/vicewire-map/800/450',
       gradient: 'linear-gradient(150deg,#23e6ff,#ff2e7e)'
     },
     {
@@ -39,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
       title: 'رویداد پاداش دوبرابر این هفته در GTA Online فعال شد',
       desc: 'لیست کامل مأموریت‌ها، فروشگاه‌ها و خودروهایی که تخفیف ویژه گرفته‌اند.',
       date: '۲۴ تیر ۱۴۰۵',
+      image: 'https://picsum.photos/seed/vicewire-bonus/800/450',
       gradient: 'linear-gradient(150deg,#ff7a3d,#b81f5c)'
     },
     {
@@ -49,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
       title: 'بهترین طرفداری‌های هنری هفته از دنیای GTA',
       desc: 'مروری بر خلاقانه‌ترین آثار هوادارانی که الهام‌گرفته از ویس‌سیتی جدید کار کرده‌اند.',
       date: '۲۰ تیر ۱۴۰۵',
+      image: 'https://picsum.photos/seed/vicewire-art/800/450',
       gradient: 'linear-gradient(150deg,#5c1240,#23e6ff)'
     },
     {
@@ -59,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
       title: 'لوسیا و جیسون؛ زوج جدید داستان GTA چه رازی دارند؟',
       desc: 'نگاهی به روایت دو قهرمانه و اینکه چرا این تصمیم راک‌استار می‌تواند بازی را متحول کند.',
       date: '۱۵ تیر ۱۴۰۵',
+      image: 'https://picsum.photos/seed/vicewire-characters/800/450',
       gradient: 'linear-gradient(150deg,#ff2e7e,#5c1240)'
     },
     {
@@ -69,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
       title: 'معرفی تازه‌ترین خودروهای فروشگاه لگندری موتورسپورت',
       desc: 'سه خودروی جدید با مشخصات فنی کامل و بهترین گزینه برای مسابقات آنلاین.',
       date: '۱۲ تیر ۱۴۰۵',
+      image: 'https://picsum.photos/seed/vicewire-cars/800/450',
       gradient: 'linear-gradient(150deg,#23e6ff,#ff7a3d)'
     },
     {
@@ -79,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
       title: 'گفتگو با یک مود‌ساز معروف درباره آینده مودینگ در GTA 6',
       desc: 'صحبت با یکی از شناخته‌شده‌ترین سازندگان ماد درباره محدودیت‌ها و فرصت‌های نسخه جدید.',
       date: '۸ تیر ۱۴۰۵',
+      image: 'https://picsum.photos/seed/vicewire-modding/800/450',
       gradient: 'linear-gradient(150deg,#b81f5c,#23e6ff)'
     },
     {
@@ -89,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
       title: 'سیستم آب‌وهوای پویا در GTA 6 چطور بازی را تغییر می‌دهد',
       desc: 'بررسی فنی سیستم جدید آب‌وهوا و تأثیر آن روی رانندگی، شکار و مأموریت‌ها.',
       date: '۴ تیر ۱۴۰۵',
+      image: 'https://picsum.photos/seed/vicewire-weather/800/450',
       gradient: 'linear-gradient(150deg,#ff7a3d,#23e6ff)'
     }
   ];
@@ -114,6 +124,13 @@ document.addEventListener('DOMContentLoaded', () => {
       card.dataset.category = item.category;
       card.innerHTML = `
         <div class="card-thumb" style="background:${item.gradient}">
+          <img
+            class="card-thumb-img"
+            src="${item.image}"
+            alt="${item.title}"
+            loading="lazy"
+            onerror="this.style.display='none'"
+          >
           <span class="card-cat">${item.categoryLabel}</span>
           <span class="card-thumb-icon">${item.icon}</span>
         </div>
