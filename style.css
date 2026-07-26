@@ -367,13 +367,12 @@ img{ max-width:100%; display:block; }
 
 .card-thumb{
   position:relative; aspect-ratio:16/9;
-  display:flex; align-items:center; justify-content:center;
-  font-family:var(--font-display); font-size:44px; color:rgba(255,255,255,.85);
   overflow:hidden;
+  background:linear-gradient(160deg, var(--bg-panel-2), var(--bg-panel-3));
 }
 .card-thumb::after{
   content:''; position:absolute; inset:0;
-  background:linear-gradient(0deg, rgba(10,4,20,.9), transparent 60%);
+  background:linear-gradient(0deg, rgba(10,4,20,.85), transparent 55%);
   z-index:1;
 }
 .card-thumb-img{
@@ -382,7 +381,12 @@ img{ max-width:100%; display:block; }
   transition:transform .5s var(--ease);
 }
 .news-card:hover .card-thumb-img{ transform:scale(1.06); }
-.card-thumb-icon{ position:relative; z-index:2; opacity:.9; text-shadow:0 2px 10px rgba(0,0,0,.5); }
+
+/* اگر تصویر بارگذاری نشد، به‌جای شکستن طرح، فقط پس‌زمینه گرادیانت گیمینگ باقی می‌ماند */
+.card-thumb.img-failed{
+  background:linear-gradient(150deg, var(--pink), var(--orange));
+}
+.card-thumb.img-failed .card-thumb-img{ display:none; }
 
 .card-cat{
   position:absolute; top:12px; inset-inline-start:12px; z-index:2;
@@ -392,12 +396,16 @@ img{ max-width:100%; display:block; }
   color:var(--cyan); border:1px solid rgba(35,230,255,.35);
 }
 
-.card-body{ padding:20px 22px 24px; display:flex; flex-direction:column; gap:10px; flex:1; }
-.card-meta{ font-family:var(--font-mono); font-size:11px; color:var(--text-faint); }
+.card-body{ padding:20px 22px 22px; display:flex; flex-direction:column; gap:10px; flex:1; }
 .card-title{ font-size:19px; font-weight:700; line-height:1.4; }
 .card-desc{ font-size:14px; color:var(--text-dim); flex:1; }
+.card-footer{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  margin-top:6px; padding-top:12px; border-top:1px solid var(--line);
+}
+.card-meta{ font-family:var(--font-mono); font-size:11px; color:var(--text-faint); }
 .card-link{
-  margin-top:8px; font-size:13px; font-weight:600; color:var(--pink);
+  font-size:13px; font-weight:600; color:var(--pink);
   display:inline-flex; align-items:center; gap:6px;
 }
 .card-link:hover{ color:var(--orange); }
@@ -557,4 +565,4 @@ img{ max-width:100%; display:block; }
   .hero-cta{ flex-direction:column; width:100%; }
   .hero-cta .btn{ justify-content:center; }
   .section-head{ flex-direction:column; align-items:flex-start; }
-                    }
+   }
